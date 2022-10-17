@@ -1,0 +1,16 @@
+use ./test_wave/l1_1_ureal.nc
+use ./test_wave/l1_1_uimag.nc
+use ./test_wave/l1_1_vreal.nc
+use ./test_wave/l1_1_vimag.nc
+
+let  clockwise_amp=((wavereal[d=1]+waveimag[d=4])^2+(waveimag[d=2]-wavereal[d=3])^2)^0.5
+set memory/size=5000
+let clockwise_ave=clockwise_amp[k=@ave]
+!fill/vlimit=0:3:0.2/pal=blue_darkred clockwise_ave
+let  anticlockwise_amp=((wavereal[d=1]-waveimag[d=4])^2+(waveimag[d=2]+wavereal[d=3])^2)^0.5
+let anticlockwise_ave=anticlockwise_amp[k=@ave]
+!set win 2
+
+!fill/vlimit=0:3:0.2/pal=blue_darkred anticlockwise_ave
+list/file=l1_1_nc_residuals_wavelet_cwccw.nc/format=cdf/clobber clockwise_amp,anticlockwise_amp
+
